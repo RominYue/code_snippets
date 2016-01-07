@@ -4,7 +4,7 @@
 from pymongo import MongoClient
 
 #connection
-client = MongoClient(host='183.174.228.25',port = 27017)
+client = MongoClient(host='xxx.xxx.xxx.xx',port = 27017)
 #use db
 db = client.foo_db
 #select collection, all oprations are in module collections
