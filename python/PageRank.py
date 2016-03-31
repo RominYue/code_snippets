@@ -6,12 +6,14 @@ Created on Mar 14, 2016
 '''
 
 from collections import defaultdict
+from convertfile import convert_to_adjmatrix
 
 def pageRankMain(adjMatrix, vertexPR, alpha, iters):
     for i in xrange(iters):
+        print 'iters' + str(i)
         newVertexPR = pageRank(adjMatrix,vertexPR,alpha)
         vertexPR = newVertexPR
-        _print(vertexPR,False)
+    return vertexPR
 
 def pageRank(adjMatrix, vertexPR, alpha):
     '''Main Process
@@ -75,15 +77,23 @@ def _print(vertexPR, flag):
 
 
 if __name__ == '__main__':
-    adjMatrix = {'A':['B','C','D'],
-                 'B':['A','D'],
-                 'C':['C'],
-                 'D':['B','C']
-                }
-    vertexPR = {'A':0.25,'B':0.25,'C':0.25,'D':0.25}
+    # adjMatrix = {'A':['B','C','D'],
+                 # 'B':['A','D'],
+                 # 'C':['C'],
+                 # 'D':['B','C']
+                # }
+    adjMatrix = convert_to_adjmatrix('1.txt')
+    vertexPR = {}
+    for i in xrange(0,75888):
+        vertexPR[str(i)] = 1.0/75887
     alpha = 0.2
-    iters = 20
+    iters = 40
 
-    _print(vertexPR, True)
-    _print(vertexPR, False)
-    pageRankMain(adjMatrix,vertexPR,alpha,iters)
+    #_print(vertexPR, True)
+    #_print(vertexPR, False)
+    vertexPR = pageRankMain(adjMatrix,vertexPR,alpha,iters)
+
+    topk = sorted(vertexPR.items(), key=lambda x:x[1], reverse=True)[:10]
+
+    for key,value in topk:
+        print key,value
