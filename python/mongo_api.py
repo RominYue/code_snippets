@@ -4,11 +4,11 @@
 from pymongo import MongoClient
 
 #connection
-client = MongoClient(host='xxx.xxx.xxx.xx',port = 27017)
+client = MongoClient(host='183.174.228.2',port = 38018)
 #use db
-db = client.foo_db
+db = client.cnnews
 #select collection, all oprations are in module collections
-collection = db.restaurants
+collection = db.cnnewsdata
 
 #insert
 #db.restaurants.insert_one(document)
@@ -24,8 +24,8 @@ collection = db.restaurants
 #db.restaurants.delete_many(filter)
 
 #find
-cursor = db.restaurants.find(filter=None, projection=None, skip=0, limit=0)
-ond_document = db.restaurants.find_one(filter_or_id=None)
+#cursor = db.restaurants.find(filter=None, projection={'content':1}, skip=0, limit=2)
+#ond_document = db.restaurants.find_one(filter_or_id=None)
 
 #count,dinstinct, sort
 
@@ -33,4 +33,12 @@ ond_document = db.restaurants.find_one(filter_or_id=None)
 
 #index
 
-print collection.find_one()
+if __name__ == '__main__':
+    ofs = open('./cnnews.tsv','w')
+    cursor = db.restaurants.find(filter=None, projection={'content':1}, skip=0, limit=2)
+    for doc in cursor:
+        print doc['_id'],doc['content']
+        print type(doc['_id']), type(doc['content'])
+        tmp = doc['_id'] + '\t' + doc['content'] + '\n'
+        ofs.write(tmp)
+    ofs.close()
